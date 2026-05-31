@@ -95,12 +95,10 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
-    # Cloudflare R2
-    R2_ACCOUNT_ID: str = ""
-    R2_ACCESS_KEY_ID: str = ""
-    R2_SECRET_ACCESS_KEY: str = ""
-    R2_BUCKET_NAME: str = "marketplace"
-    R2_PUBLIC_URL: str = ""
+    # Supabase Storage
+    SUPABASE_URL: str = ""
+    SUPABASE_SERVICE_KEY: str = ""
+    SUPABASE_BUCKET_NAME: str = "marketplace"
 
     def _check_default_secret(self, var_name: str, value: str | None) -> None:
         if value == "changethis":
@@ -123,12 +121,11 @@ class Settings(BaseSettings):
         return self
 
     @model_validator(mode="after")
-    def _normalize_and_validate_r2(self) -> Self:
-        self.R2_PUBLIC_URL = self.R2_PUBLIC_URL.rstrip("/")
-        if not self.R2_PUBLIC_URL:
+    def _validate_supabase(self) -> Self:
+        if not self.SUPABASE_URL or not self.SUPABASE_SERVICE_KEY:
             message = (
-                "R2_PUBLIC_URL is not set — image uploads will produce "
-                "broken relative URLs stored in the database."
+                "SUPABASE_URL or SUPABASE_SERVICE_KEY is not set — "
+                "image uploads will fail."
             )
             if self.ENVIRONMENT == "local":
                 warnings.warn(message, stacklevel=1)
