@@ -1,0 +1,86 @@
+# generated: 2026-05-29
+# last_updated: 2026-05-29
+# project: test0529
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-05-29
+last_updated: 2026-05-31 (전체 MVP 완료 — Epic 1~5 done)
+
+project: test0529
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # ─── Epic 1: 기반 구축 & 사용자 인증 ───
+  epic-1: done
+  1-1-project-foundation-db-schema: done
+  1-2-google-oauth-api: done
+  1-3-flutter-login-jwt-session: done
+  1-4-neighborhood-selection: done
+  1-5-nickname-onboarding: done
+  1-6-profile-settings: done
+  epic-1-retrospective: optional
+
+  # ─── Epic 2: 상품 탐색 ───
+  epic-2: done
+  2-1-product-db-feed-api: done
+  2-2-flutter-feed-screen: done
+  2-3-flutter-product-detail: done
+  epic-2-retrospective: optional
+
+  # ─── Epic 3: 상품 등록 & 관리 ───
+  epic-3: done
+  3-1-product-registration-api-r2: done
+  3-2-flutter-product-registration: done
+  3-3-likes-edit-delete-api: done
+  3-4-flutter-product-management: done
+  epic-3-retrospective: optional
+
+  # ─── Epic 4: 1:1 채팅 & 푸시 알림 ───
+  epic-4: done
+  4-1-chat-db-rest-api: done
+  4-2-websocket-server-connection-manager: done
+  4-3-flutter-chat-room: done
+  4-4-flutter-chat-list: done
+  4-5-fcm-push-notifications: done
+  epic-4-retrospective: optional
+
+  # ─── Epic 5: 어드민 패널 ───
+  epic-5: done
+  5-1-admin-auth-login: done
+  5-2-admin-product-management: done
+  5-3-admin-user-management: done
+  5-4-admin-dashboard: done
+  epic-5-retrospective: optional

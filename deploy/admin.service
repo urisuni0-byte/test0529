@@ -1,0 +1,17 @@
+[Unit]
+Description=Marketplace Next.js Admin
+After=network.target marketplace-backend.service
+
+[Service]
+Type=simple
+User=appuser
+WorkingDirectory=APP_DIR_PLACEHOLDER/admin
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=API_URL=http://localhost:8000/api/v1
+ExecStart=/usr/bin/node APP_DIR_PLACEHOLDER/admin/.next/standalone/server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

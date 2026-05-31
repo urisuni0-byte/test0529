@@ -1,0 +1,34 @@
+name: Admin CI
+
+on:
+  push:
+    branches: [main]
+    paths: ["admin/**"]
+  pull_request:
+    branches: [main]
+    paths: ["admin/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      API_URL: http://localhost:8000/api/v1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Install dependencies
+        working-directory: admin
+        run: npm ci
+
+      - name: TypeScript check & build
+        working-directory: admin
+        run: npm run build

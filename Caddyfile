@@ -1,0 +1,10 @@
+# Caddy automatically obtains and renews TLS certificates via Let's Encrypt.
+# Replace the domain names with your actual domains.
+
+api.{$DOMAIN} {
+    reverse_proxy backend:8000
+}
+
+admin.{$DOMAIN} {
+    reverse_proxy admin:3000
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=Marketplace FastAPI Backend
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=appuser
+WorkingDirectory=APP_DIR_PLACEHOLDER/backend
+EnvironmentFile=APP_DIR_PLACEHOLDER/.env
+ExecStart=APP_DIR_PLACEHOLDER/backend/.venv/bin/fastapi run app/main.py --port 8000 --workers 4
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

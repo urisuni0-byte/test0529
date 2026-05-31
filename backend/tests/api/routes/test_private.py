@@ -1,0 +1,1 @@
+# Private routes removed — placeholder
