@@ -9,7 +9,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 WORKDIR /app
 
 COPY uv.lock pyproject.toml ./
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY ./app ./app
 COPY ./alembic.ini .
