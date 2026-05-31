@@ -3,10 +3,10 @@ class AppConstants {
 
   /// Backend API base URL.
   /// Override at build time: --dart-define=API_BASE_URL=https://your-server.com
-  /// Android emulator default: 10.0.2.2 (maps to host machine localhost)
+  /// Local dev (Android emulator): --dart-define=API_BASE_URL=http://10.0.2.2:8000
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8000',
+    defaultValue: 'https://backend-production-f35b.up.railway.app',
   );
 
   static const String apiV1 = '$baseUrl/api/v1';
