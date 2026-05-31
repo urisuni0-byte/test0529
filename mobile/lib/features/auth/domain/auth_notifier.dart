@@ -85,6 +85,19 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     state = const AsyncData(Unauthenticated());
   }
 
+  /// 디버그 전용: Google 로그인 없이 테스트 유저로 진입.
+  void signInAsTestUser() {
+    const testUser = UserModel(
+      id: 'test-user-id',
+      email: 'test@test.com',
+      role: 'user',
+      isActive: true,
+      nickname: '테스트유저',
+      neighborhoodId: 2,
+    );
+    state = const AsyncData(Authenticated(user: testUser));
+  }
+
   /// Optimistically update the in-memory user without a network round-trip.
   /// Used by screens that already confirmed a successful PATCH /users/me.
   void updateUser(UserModel updated) {

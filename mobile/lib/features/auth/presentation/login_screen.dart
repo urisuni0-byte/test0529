@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,6 +57,17 @@ class LoginScreen extends ConsumerWidget {
                     onPressed: () =>
                         ref.read(authNotifierProvider.notifier).signInWithGoogle(),
                   ),
+                if (kDebugMode) ...[
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () =>
+                        ref.read(authNotifierProvider.notifier).signInAsTestUser(),
+                    child: const Text(
+                      '테스트로 계속 (디버그)',
+                      style: TextStyle(color: Color(0xFF9E9E9E)),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

@@ -3,6 +3,8 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException, status
 
+from pydantic import BaseModel, EmailStr
+
 from app import crud
 from app.api.deps import SessionDep
 from app.core import security

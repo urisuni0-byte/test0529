@@ -1,21 +1,46 @@
 {
-  "_comment": "PLACEHOLDER — replace with real google-services.json from Firebase console before building",
   "project_info": {
-    "project_number": "000000000000",
-    "project_id": "your-project-id",
-    "storage_bucket": "your-project-id.appspot.com"
+    "project_number": "479301996267",
+    "project_id": "my-project-444f6",
+    "storage_bucket": "my-project-444f6.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000",
+        "mobilesdk_app_id": "1:479301996267:android:a3b715e8674a80c53438ae",
         "android_client_info": {
           "package_name": "com.yourcompany.mobile"
         }
       },
-      "oauth_client": [],
-      "api_key": [{"current_key": "PLACEHOLDER"}],
-      "services": {"appinvite_service": {"other_platform_oauth_client": []}}
+      "oauth_client": [
+        {
+          "client_id": "479301996267-d1h9jlmf4fuludnvee6775ha3r9kkofg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yourcompany.mobile",
+            "certificate_hash": "a9503791dd7b1e45afb4f0aabc2b709d74f04f17"
+          }
+        },
+        {
+          "client_id": "479301996267-if5rbgjim4hjcb905s8qvg4qi23eujam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF8aISX5X0QlVdVMOBqy1JXZqfpNr7ZXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479301996267-if5rbgjim4hjcb905s8qvg4qi23eujam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
