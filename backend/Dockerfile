@@ -8,11 +8,8 @@ COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
 
 WORKDIR /app
 
-# Install dependencies (cached layer)
-RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-dev
+COPY uv.lock pyproject.toml ./
+RUN uv sync --frozen --no-dev
 
 COPY ./app ./app
 COPY ./alembic.ini .
