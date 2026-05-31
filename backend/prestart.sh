@@ -11,4 +11,4 @@ echo "Creating initial data..."
 python app/initial_data.py
 
 echo "Starting FastAPI server..."
-exec fastapi run --workers 1 app/main.py --port 8000
+exec fastapi run --workers 4 app/main.py --port 8000
