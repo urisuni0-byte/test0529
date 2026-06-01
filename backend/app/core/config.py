@@ -95,8 +95,8 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
-    # Anthropic Claude API
-    ANTHROPIC_API_KEY: str = ""
+    # Google Gemini API
+    GOOGLE_GEMINI_API_KEY: str = ""
 
     # Supabase Storage
     SUPABASE_URL: str = ""
