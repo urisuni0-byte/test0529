@@ -78,6 +78,54 @@ class AuthRepository {
     }
   }
 
+  Future<UserModel> signInWithEmail(String email, String password) async {
+    try {
+      final resp = await _refreshDio.post(
+        '/auth/login',
+        data: {'email': email, 'password': password},
+      );
+      final token = AuthToken.fromJson(resp.data as Map<String, dynamic>);
+      final userResp = await _refreshDio.get(
+        '/users/me',
+        options: Options(headers: {'Authorization': 'Bearer ${token.accessToken}'}),
+      );
+      final user = UserModel.fromJson(userResp.data as Map<String, dynamic>);
+      await _storage.saveTokens(
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+      );
+      return user;
+    } on DioException catch (e) {
+      throw AppError.fromDioException(e);
+    }
+  }
+
+  Future<UserModel> registerWithEmail(
+    String email,
+    String password,
+    String nickname,
+  ) async {
+    try {
+      final resp = await _refreshDio.post(
+        '/auth/register',
+        data: {'email': email, 'password': password, 'nickname': nickname},
+      );
+      final token = AuthToken.fromJson(resp.data as Map<String, dynamic>);
+      final userResp = await _refreshDio.get(
+        '/users/me',
+        options: Options(headers: {'Authorization': 'Bearer ${token.accessToken}'}),
+      );
+      final user = UserModel.fromJson(userResp.data as Map<String, dynamic>);
+      await _storage.saveTokens(
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+      );
+      return user;
+    } on DioException catch (e) {
+      throw AppError.fromDioException(e);
+    }
+  }
+
   Future<UserModel> getMe(String accessToken) async {
     try {
       final resp = await _refreshDio.get(

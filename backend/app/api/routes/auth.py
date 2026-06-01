@@ -12,6 +12,8 @@ from app.core.config import settings
 from app.models import (
     AccessTokenResponse,
     AuthTokenResponse,
+    EmailLoginRequest,
+    EmailRegisterRequest,
     GoogleLoginRequest,
     RefreshRequest,
     User,
@@ -41,6 +43,68 @@ async def login_google(session: SessionDep, body: GoogleLoginRequest) -> Any:
             detail={"detail": "계정이 정지되었습니다.", "code": "ACCOUNT_DEACTIVATED"},
         )
 
+    return AuthTokenResponse(
+        access_token=security.create_access_token(str(user.id), role=user.role),
+        refresh_token=security.create_refresh_token(str(user.id)),
+    )
+
+
+@router.post("/register", response_model=AuthTokenResponse)
+def register_email(session: SessionDep, body: EmailRegisterRequest) -> Any:
+    """Register a new account with email and password."""
+    import re
+    if len(body.password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={"detail": "비밀번호는 8자 이상이어야 합니다.", "code": "PASSWORD_TOO_SHORT"},
+        )
+    if not re.match(r'^[가-힣a-zA-Z0-9]{2,15}$', body.nickname):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail={"detail": "닉네임은 2~15자의 한글·영문·숫자만 사용 가능합니다.", "code": "INVALID_NICKNAME"},
+        )
+    if crud.get_user_by_email(session=session, email=body.email):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={"detail": "이미 사용 중인 이메일입니다.", "code": "EMAIL_TAKEN"},
+        )
+    from sqlmodel import select
+    from app.models import User as UserModel
+    existing_nick = session.exec(
+        select(UserModel).where(UserModel.nickname == body.nickname)
+    ).first()
+    if existing_nick:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail={"detail": "이미 사용 중인 닉네임입니다.", "code": "NICKNAME_TAKEN"},
+        )
+    hashed = security.get_password_hash(body.password)
+    user = crud.create_email_user(
+        session=session,
+        email=body.email,
+        hashed_password=hashed,
+        nickname=body.nickname,
+    )
+    return AuthTokenResponse(
+        access_token=security.create_access_token(str(user.id), role=user.role),
+        refresh_token=security.create_refresh_token(str(user.id)),
+    )
+
+
+@router.post("/login", response_model=AuthTokenResponse)
+def login_email(session: SessionDep, body: EmailLoginRequest) -> Any:
+    """Login with email and password."""
+    user = crud.get_user_by_email(session=session, email=body.email)
+    if not user or not user.hashed_password or not security.verify_password(body.password, user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail={"detail": "이메일 또는 비밀번호가 올바르지 않습니다.", "code": "INVALID_CREDENTIALS"},
+        )
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={"detail": "계정이 정지되었습니다.", "code": "ACCOUNT_DEACTIVATED"},
+        )
     return AuthTokenResponse(
         access_token=security.create_access_token(str(user.id), role=user.role),
         refresh_token=security.create_refresh_token(str(user.id)),

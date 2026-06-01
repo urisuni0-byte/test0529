@@ -14,6 +14,16 @@ def get_user_by_id(*, session: Session, user_id: uuid.UUID) -> User | None:
     return session.get(User, user_id)
 
 
+def create_email_user(
+    *, session: Session, email: str, hashed_password: str, nickname: str
+) -> User:
+    user = User(email=email, hashed_password=hashed_password, nickname=nickname)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
+
+
 def upsert_google_user(
     *, session: Session, email: str, google_sub: str, name: str
 ) -> User:

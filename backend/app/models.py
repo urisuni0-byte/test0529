@@ -135,6 +135,17 @@ class RefreshRequest(SQLModel):
     refresh_token: str
 
 
+class EmailRegisterRequest(SQLModel):
+    email: str
+    password: str
+    nickname: str
+
+
+class EmailLoginRequest(SQLModel):
+    email: str
+    password: str
+
+
 # ─── JWT Payload ───────────────────────────────────────────────────────────────
 
 class TokenPayload(SQLModel):

@@ -75,6 +75,36 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     }
   }
 
+  Future<void> signInWithEmail(String email, String password) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final user = await ref.read(authRepositoryProvider).signInWithEmail(email, password);
+      return Authenticated(user: user);
+    });
+    if (state.hasError && state.error is! AppError) {
+      state = AsyncError(
+        AppError(message: state.error.toString(), code: AppErrorCode.unknown),
+        state.stackTrace ?? StackTrace.current,
+      );
+    }
+  }
+
+  Future<void> registerWithEmail(String email, String password, String nickname) async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      final user = await ref
+          .read(authRepositoryProvider)
+          .registerWithEmail(email, password, nickname);
+      return Authenticated(user: user);
+    });
+    if (state.hasError && state.error is! AppError) {
+      state = AsyncError(
+        AppError(message: state.error.toString(), code: AppErrorCode.unknown),
+        state.stackTrace ?? StackTrace.current,
+      );
+    }
+  }
+
   Future<void> signOut() async {
     await ref.read(authRepositoryProvider).signOut();
     state = const AsyncData(Unauthenticated());

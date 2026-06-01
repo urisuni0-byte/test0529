@@ -14,7 +14,9 @@ import '../../features/product/presentation/product_edit_screen.dart';
 import '../../features/chat/presentation/chat_list_screen.dart';
 import '../../features/chat/presentation/chat_room_screen.dart';
 import '../../features/product/presentation/product_register_screen.dart';
+import '../../features/auth/presentation/register_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import 'main_shell.dart';
 
 /// /product/:id 형태의 공개 상품 상세 경로인지 확인.
 /// 'register' 등 인증 필요 하위 경로는 명시적으로 제외한다.
@@ -88,21 +90,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
-      GoRoute(
-        path: '/feed',
-        builder: (context, state) => const FeedScreen(),
-      ),
-      GoRoute(
-        path: '/neighborhood',
-        builder: (context, state) => const NeighborhoodPickerScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        builder: (context, state) => const SettingsScreen(),
-      ),
+      // ShellRoute보다 먼저 — /product/register가 /product/:id에 매칭되는 것 방지
       GoRoute(
         path: '/product/register',
         builder: (context, state) => const ProductRegisterScreen(),
@@ -115,21 +110,38 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        path: '/product/:productId',
-        builder: (context, state) => ProductDetailScreen(
-          productId: state.pathParameters['productId']!,
-        ),
-      ),
-      GoRoute(
-        path: '/chat-list',
-        builder: (context, state) => const ChatListScreen(),
-      ),
-      GoRoute(
         path: '/chat/:roomId',
         builder: (context, state) => ChatRoomScreen(
           roomId: state.pathParameters['roomId']!,
           productId: state.extra as String?,
         ),
+      ),
+      GoRoute(
+        path: '/neighborhood',
+        builder: (context, state) => const NeighborhoodPickerScreen(),
+      ),
+      ShellRoute(
+        builder: (context, state, child) => MainShell(child: child),
+        routes: [
+          GoRoute(
+            path: '/feed',
+            builder: (context, state) => const FeedScreen(),
+          ),
+          GoRoute(
+            path: '/chat-list',
+            builder: (context, state) => const ChatListScreen(),
+          ),
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: '/product/:productId',
+            builder: (context, state) => ProductDetailScreen(
+              productId: state.pathParameters['productId']!,
+            ),
+          ),
+        ],
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
