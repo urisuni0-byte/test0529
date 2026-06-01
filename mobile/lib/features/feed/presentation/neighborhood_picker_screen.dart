@@ -114,7 +114,7 @@ class _PickerBody extends ConsumerWidget {
                                 .valueOrNull
                                 ?.saveError ==
                             null) {
-                      context.pop();
+                      context.go('/feed');
                     }
                   }
                 : null,

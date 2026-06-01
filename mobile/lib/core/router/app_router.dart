@@ -15,6 +15,7 @@ import '../../features/chat/presentation/chat_list_screen.dart';
 import '../../features/chat/presentation/chat_room_screen.dart';
 import '../../features/product/presentation/product_register_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
+import '../../features/support/presentation/support_chat_screen.dart';
 import '../../features/splash/splash_screen.dart';
 import 'main_shell.dart';
 
@@ -58,7 +59,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (!isAuthenticated) {
         // /product/:id는 공개 경로 — 비인증 사용자도 상세 열람 가능 (FR-2)
         if (_isPublicProductRoute(loc)) return null;
-        return loc == '/login' ? null : '/login';
+        if (loc == '/login' || loc == '/register') return null;
+        return '/login';
       }
 
       // 아래 두 incomplete-auth 가드도 /product/:id 접근은 허용 (FR-2)
@@ -119,6 +121,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/neighborhood',
         builder: (context, state) => const NeighborhoodPickerScreen(),
+      ),
+      GoRoute(
+        path: '/support',
+        builder: (context, state) => const SupportChatScreen(),
       ),
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),

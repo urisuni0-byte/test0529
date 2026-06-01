@@ -95,6 +95,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
+    # Anthropic Claude API
+    ANTHROPIC_API_KEY: str = ""
+
     # Supabase Storage
     SUPABASE_URL: str = ""
     SUPABASE_SERVICE_KEY: str = ""

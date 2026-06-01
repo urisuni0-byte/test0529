@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/network/api_client.dart';
 import '../domain/auth_notifier.dart';
@@ -187,6 +188,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   child: _isEditing
                       ? _buildEditRow()
                       : _buildDisplayRow(currentNickname),
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                '고객지원',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF757575)),
+              ),
+              const SizedBox(height: 8),
+              Card(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.grey.shade200),
+                ),
+                child: ListTile(
+                  title: const Text('고객센터'),
+                  leading: const Icon(Icons.support_agent_outlined, color: Color(0xFFFF7043)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/support'),
                 ),
               ),
               const SizedBox(height: 32),

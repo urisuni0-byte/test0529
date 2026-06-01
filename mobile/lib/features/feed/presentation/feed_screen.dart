@@ -40,13 +40,7 @@ class FeedScreen extends ConsumerWidget {
         title: const Text('피드'),
         backgroundColor: const Color(0xFFFF7043),
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.chat_bubble_outline),
-            tooltip: '채팅',
-            onPressed: () => context.push('/chat-list'),
-          ),
-        ],
+        actions: const [],
       ),
       body: feedAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),

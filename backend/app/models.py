@@ -278,3 +278,76 @@ class ProductUpdate(SQLModel):
             valid = ", ".join(s.value for s in ProductStatus)
             raise ValueError(f"유효한 상태값: {valid}")
         return v
+
+
+# ─── Support (고객센터) Models ────────────────────────────────────────────────
+
+class SupportFaq(SQLModel, table=True):
+    __tablename__ = "support_faqs"  # type: ignore[assignment]
+
+    id: int | None = Field(default=None, primary_key=True)
+    question: str = Field(sa_column=Column(SaText(), nullable=False))
+    answer: str = Field(sa_column=Column(SaText(), nullable=False))
+    category: str | None = Field(default=None, max_length=50)
+
+
+class SupportConversation(SQLModel, table=True):
+    __tablename__ = "support_conversations"  # type: ignore[assignment]
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    user_id: uuid.UUID = Field(foreign_key="users.id")
+    created_at: datetime = Field(
+        default_factory=_utcnow,
+        sa_type=DateTime(timezone=True),  # type: ignore[call-arg]
+    )
+    updated_at: datetime = Field(
+        default_factory=_utcnow,
+        sa_type=DateTime(timezone=True),  # type: ignore[call-arg]
+    )
+
+
+class SupportMessage(SQLModel, table=True):
+    __tablename__ = "support_messages"  # type: ignore[assignment]
+
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    conversation_id: uuid.UUID = Field(foreign_key="support_conversations.id")
+    role: str = Field(max_length=10)  # "user" | "assistant"
+    content: str = Field(sa_column=Column(SaText(), nullable=False))
+    created_at: datetime = Field(
+        default_factory=_utcnow,
+        sa_type=DateTime(timezone=True),  # type: ignore[call-arg]
+    )
+
+
+# ─── Support API Schemas ──────────────────────────────────────────────────────
+
+class SupportChatRequest(SQLModel):
+    message: str
+    conversation_id: str | None = None
+
+
+class SupportMessageOut(SQLModel):
+    role: str
+    content: str
+    created_at: datetime
+
+
+class SupportChatResponse(SQLModel):
+    conversation_id: str
+    answer: str
+
+
+class SupportConversationListItem(SQLModel):
+    id: str
+    user_email: str
+    user_nickname: str | None
+    last_message: str | None
+    message_count: int
+    created_at: datetime
+    updated_at: datetime
+
+
+class SupportConversationDetail(SQLModel):
+    id: str
+    user_email: str
+    messages: list[SupportMessageOut]
