@@ -71,6 +71,7 @@ def chat(
         session=session,
         user_message=body.message,
         history=history,
+        user_neighborhood_id=current_user.neighborhood_id,
     )
 
     # 메시지 저장
