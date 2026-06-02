@@ -122,10 +122,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/neighborhood',
         builder: (context, state) => const NeighborhoodPickerScreen(),
       ),
-      GoRoute(
-        path: '/support',
-        builder: (context, state) => const SupportChatScreen(),
-      ),
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),
         routes: [
@@ -136,6 +132,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/chat-list',
             builder: (context, state) => const ChatListScreen(),
+          ),
+          GoRoute(
+            path: '/support',
+            builder: (context, state) => const SupportChatScreen(),
           ),
           GoRoute(
             path: '/settings',
