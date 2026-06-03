@@ -26,3 +26,4 @@ __pycache__/
 # ── BMAD / Claude Code 내부 파일 ─────────────────────────────────────────────
 _bmad/.cache/
 .claude/
+mobile/flutter_*.png
